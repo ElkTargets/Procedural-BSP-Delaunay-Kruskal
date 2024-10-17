@@ -10,8 +10,11 @@ public class MapManager : MonoBehaviour {
     private List<Room> _rooms = new List<Room>();
     public int depth = 3;
     public bool cutHorizontaly;
+    
+    
+    // LES METHODES DE DELAUNAY ON ÉTÉ ASSEZ AIDÉS PAR DE L'IA CAR J'AI EU DU MAL A COMPRENDRE
 
-    //private Dictionary<Vector2Int, List<Vector2Int>> _connections = new Dictionary<Vector2Int, List<Vector2Int>>();
+    private Dictionary<Vector2Int, List<Vector2Int>> _connections = new Dictionary<Vector2Int, List<Vector2Int>>();
 
     [ContextMenu("Launch")]
     public void Launch() {
@@ -32,7 +35,7 @@ public class MapManager : MonoBehaviour {
 
         // Perform Delaunay triangulation
         //
-        /*var triangles = DelaunayTriangulation(centers);
+        var triangles = DelaunayTriangulation(centers);
 
         // Store connections in dictionary
         foreach (var triangle in triangles) {
@@ -44,7 +47,7 @@ public class MapManager : MonoBehaviour {
         // Log connections
         foreach (var connection in _connections) {
             Debug.Log($"Connections for {connection.Key}: {string.Join(", ", connection.Value)}");
-        }*/
+        }
     }
 
     private List<Room> RecursiveSplit(List<Room> rooms, int depth) {
@@ -90,8 +93,8 @@ public class MapManager : MonoBehaviour {
         Debug.Log($"Center of the room: x = {center.x}, y = {center.y}");
         return center;
     }
-
-    /*private void AddConnection(Vector2Int p1, Vector2Int p2) {
+    
+    private void AddConnection(Vector2Int p1, Vector2Int p2) {
         if (!_connections.ContainsKey(p1)) {
             _connections[p1] = new List<Vector2Int>();
         }
@@ -197,19 +200,19 @@ public class MapManager : MonoBehaviour {
                       (cy * py * (by - cy) + cy * by * (py - by) + py * by * (cy - py));
 
         return (a_b_c * (a_b_p + a_c_p + b_c_p) + det * (a_p + b_p + c_p)) > 0;
-    }*/
+    }
 
     private void OnDrawGizmos() {
         foreach (Room room in _rooms) {
             room.DrawRoom();
             room.DrawCenter();
         }
-
-        /*foreach (var connection in _connections) {
+        
+        foreach (var connection in _connections) {
             foreach (var neighbor in connection.Value) {
                 Debug.DrawLine(new Vector3(connection.Key.x, connection.Key.y, 0), new Vector3(neighbor.x, neighbor.y, 0), Color.green);
             }
-        }*/
+        }
     }
 }
 
@@ -260,5 +263,6 @@ public struct Room {
             Debug.DrawLine(prevPoint, nextPoint, Color.blue);
             prevPoint = nextPoint;
         }
+        
     }
 }
